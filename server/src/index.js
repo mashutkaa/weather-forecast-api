@@ -4,6 +4,13 @@ import dotenv from "dotenv";
 
 import pool from "./config/db.js";
 
+import weatherRoutes from "./routes/weatherRoutes.js";
+import subscriptionRoutes from "./routes/subscriptionRoutes.js";
+
+import errorHandling from "./middlewares/errorHandler.js";
+
+import createSubscriptionsTable from "./data/createSubscriptionsTable.js";
+
 dotenv.config();
 
 const app = express();
@@ -14,8 +21,14 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
+app.use("/api", weatherRoutes);
+app.use("/api", subscriptionRoutes);
 
 // Error handling middleware
+app.use(errorHandling);
+
+// Create table before starting the server
+createSubscriptionsTable();
 
 // Testing POSTGRESQL connection
 app.get("/", async (req, res) => {
