@@ -11,6 +11,8 @@ import errorHandling from "./middlewares/errorHandler.js";
 
 import createSubscriptionsTable from "./data/createSubscriptionsTable.js";
 
+import "./cron/sendForecast.js";
+
 dotenv.config();
 
 const app = express();

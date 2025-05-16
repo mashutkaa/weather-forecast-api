@@ -24,8 +24,9 @@ transporter.verify((error, success) => {
  * @param {string} to - Email одержувача
  * @param {string} subject - Тема листа
  * @param {string} text - Текстова версія листа
- * @param {string} html - HTML-версія листа (опціонально)
+ * @param {string} html - HTML-версія листа
  */
+
 export const sendEmail = async ({ to, subject, text, html }) => {
     const mailOptions = {
         from: `"Weather Bot 🌤️" <${process.env.SMTP_USER}>`,

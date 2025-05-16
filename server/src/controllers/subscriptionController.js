@@ -42,7 +42,6 @@ export const handleSubscribe = async (req, res, next) => {
             token,
         );
 
-        // Формуємо лист
         const confirmationUrl = `${process.env.API_URL}/confirm/${token}`;
 
         const subject = "Активація підписки на погоду";
