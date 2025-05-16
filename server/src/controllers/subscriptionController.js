@@ -7,16 +7,16 @@ import {
     confirmSubscription,
     deleteSubscriptionByToken,
 } from "../models/subscriptionModel.js";
-import { sendConfirmationEmail } from "../services/email/sendConfirmationEmail.js";
+import { sendEmail } from "../services/email/emailService.js";
 
-// 📩 POST /subscribe
 export const handleSubscribe = async (req, res, next) => {
     const { email, city, frequency } = req.body;
 
     if (!email || !city || !frequency) {
-        return res
-            .status(400)
-            .json({ message: "Email, city and frequency are required" });
+        return res.status(400).json({
+            status: 400,
+            description: "Invalid input",
+        });
     }
 
     const client = await pool.connect();
@@ -25,9 +25,10 @@ export const handleSubscribe = async (req, res, next) => {
         const existing = await getSubscriptionByEmail(email);
         if (existing) {
             client.release();
-            return res
-                .status(409)
-                .json({ message: "Email is already subscribed" });
+            return res.status(409).json({
+                status: 409,
+                description: "Email already subscribed",
+            });
         }
 
         await client.query("BEGIN");
@@ -41,13 +42,35 @@ export const handleSubscribe = async (req, res, next) => {
             token,
         );
 
-        await sendConfirmationEmail(email, token); // якщо тут помилка — rollback
+        // Формуємо лист
+        const confirmationUrl = `${process.env.API_URL}/confirm/${token}`;
+
+        const subject = "Активація підписки на погоду";
+        const text = `Щоб підтвердити свою підписку, перейдіть за посиланням: ${confirmationUrl}`;
+        const html = `
+            <h1>Підтвердження підписки</h1>
+            <p>Щоб підтвердити свою підписку, натисніть на посилання нижче:</p>
+            <a href="${confirmationUrl}">Підтвердити підписку</a>
+            <p>Якщо ви не підписувалися, просто проігноруйте цей лист.</p>
+        `;
+
+        try {
+            await sendEmail({ to: email, subject, text, html });
+        } catch (error) {
+            console.error("Email sending error:", error);
+            await client.query("ROLLBACK");
+            client.release();
+            return res
+                .status(500)
+                .json({ message: "Помилка при відправці листа" });
+        }
 
         await client.query("COMMIT");
         client.release();
 
-        return res.status(201).json({
-            message: "Subscription created. Please confirm via email.",
+        return res.status(200).json({
+            status: 200,
+            description: "Subscription successful. Confirmation email sent.",
             subscription: {
                 email: newSub.email,
                 city: newSub.city,
@@ -62,7 +85,6 @@ export const handleSubscribe = async (req, res, next) => {
     }
 };
 
-// ✅ GET /confirm/:token
 export const handleConfirm = async (req, res, next) => {
     const { token } = req.params;
 
@@ -70,29 +92,46 @@ export const handleConfirm = async (req, res, next) => {
         const confirmedSub = await confirmSubscription(token);
 
         if (!confirmedSub) {
-            return res
-                .status(404)
-                .json({ message: "Invalid or expired token" });
+            return res.status(404).json({
+                status: 404,
+                description: "Token not found",
+            });
         }
 
-        return res.json({ message: "Subscription confirmed!" });
+        return res.status(200).json({
+            status: 200,
+            description: "Subscription confirmed successfully",
+        });
     } catch (error) {
         next(error);
     }
 };
 
-// ❌ GET /unsubscribe/:token
 export const handleUnsubscribe = async (req, res, next) => {
     const { token } = req.params;
+
+    const isValidTokenFormat = /^[a-f0-9]{32}$/i.test(token);
+    if (!isValidTokenFormat) {
+        return res.status(400).json({
+            status: 400,
+            description: "Invalid token",
+        });
+    }
 
     try {
         const unsubscribed = await deleteSubscriptionByToken(token);
 
         if (!unsubscribed) {
-            return res.status(404).json({ message: "Invalid token" });
+            return res.status(404).json({
+                status: 404,
+                description: "Token not found",
+            });
         }
 
-        return res.json({ message: "You have been unsubscribed." });
+        return res.status(200).json({
+            status: 200,
+            description: "Unsubscribed successfully",
+        });
     } catch (error) {
         next(error);
     }

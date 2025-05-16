@@ -30,7 +30,7 @@ export const sendConfirmationEmail = async (email, token) => {
         html: `
             <h1>Підтвердження підписки</h1>
             <p>Щоб підтвердити свою підписку, натисніть на посилання нижче:</p>
-            <a href="${confirmationUrl}">Підтвердити підписку</a>
+            <a href="${confirmationUrl}">${confirmationUrl}</a>
             <p>Якщо ви не підписувалися, просто проігноруйте цей лист.</p>
         `,
     };
