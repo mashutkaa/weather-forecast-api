@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - "5001:5001"
+    depends_on:
+      - db
+    environment:
+      PGHOST: localhost
+      PGPORT: 1234
+      PGUSER: postgres
+      PGPASSWORD: a7p7MHLd69
+      PGDATABASE: weather-forecast
+    restart: unless-stopped
+
+  db:
+    image: postgres:latest
+    ports:
+      - "1234:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: a7p7MHLd69
+      POSTGRES_DB: weather-forecast
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:

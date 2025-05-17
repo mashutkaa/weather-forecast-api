@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <main>
+        <div>
+            <h1>Weather Alert Service</h1>
+            <p>Stay informed about weather conditions in your area with personalized alerts delivered straight to your inbox.</p>
+        </div>
+        <div>
+            <div>
+                <form action="">
+                    <h2>Subscribe to Weather Alerts</h2>
+                    <p>Get weather updates for your location delivered directly to your inbox.</p>
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div>
+                        <input type="radio" id="html" name="fav_language" value="HTML">
+                        <label for="html">HTML</label><br>
+                        <input type="radio" id="css" name="fav_language" value="CSS">
+                        <label for="css">CSS</label><br>
+                    </div>
+                    <button type="submit">Subscribe now →</button>
+                </form>
+            </div>
+            <div>
+                <h2>Find weather in your city right now</h2>
+                <form action="">
+                    <div>
+                        <label for="city">City:</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <button type="submit">Get weather data</button>
+                </form>
+                <div>
+                    <div>
+                        <p class="weather-prop-name__text">Humidity:</p>
+                        <p class="weather-prop__text">50%</p>
+                    </div>
+                    <div>
+                        <p class="weather-prop-name__text">Temperature:</p>
+                        <p class="weather-prop__text">20°C</p>
+                    </div>
+                    <div>
+                        <p class="weather-prop-name__text">Description:</p>
+                        <p class="weather-prop__text">Sunny</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p>Already Subscribed?</p>
+                <button>Unsubscribe from Alerts</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="./index.js"></script>
+</body>
+</html>

@@ -13,11 +13,23 @@ const sendWeatherUpdates = async (type) => {
 
         const subscribers = await getSubscribers();
 
-        for (const subscriber of subscribers) {
-            const { email, city } = subscriber;
-
+        const tasks = subscribers.map(async ({ email, city }) => {
             try {
-                const weather = await fetchWeatherFromAPI(city);
+                let weather = await fetchWeatherFromAPI(city);
+
+                const hasValidWeather =
+                    weather &&
+                    typeof weather.description === "string" &&
+                    weather.temperature !== undefined &&
+                    weather.humidity !== undefined;
+
+                if (!hasValidWeather) {
+                    weather = {
+                        description: "Немає даних про погоду",
+                        temperature: "N/A",
+                        humidity: "N/A",
+                    };
+                }
 
                 const subject =
                     type === "hourly"
@@ -27,23 +39,18 @@ const sendWeatherUpdates = async (type) => {
                 const text = `Погода в ${city}: ${weather.description}, температура: ${weather.temperature}°C, вологість: ${weather.humidity}%`;
 
                 const html = `<h1>Погода в ${city}</h1>
-                              <p>${weather.description}</p>
-                              <p>Температура: ${weather.temperature}°C</p>
-                              <p>Вологість: ${weather.humidity}%</p>`;
+                      <p>${weather.description}</p>
+                      <p>Температура: ${weather.temperature}°C</p>
+                      <p>Вологість: ${weather.humidity}%</p>
+                      <small style="color: gray;">* Деякі дані могли бути недоступні під час оновлення</small>`;
 
                 await sendEmail({ to: email, subject, text, html });
-
-                console.log(`[CRON] Лист надіслано: ${email}`);
             } catch (err) {
                 console.error(`[CRON] Помилка для ${email}:`, err.message);
             }
-        }
+        });
 
-        console.log(
-            `[CRON] Усього ${
-                type === "hourly" ? "щогодинних" : "щоденних"
-            } листів: ${subscribers.length}`,
-        );
+        await Promise.allSettled(tasks);
     } catch (error) {
         console.error(
             `[CRON] Загальна помилка для ${type} розсилки:`,
