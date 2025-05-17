@@ -1,70 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast</title>
-    <link rel="stylesheet" href="./index.css">
-</head>
-<body>
-    <main>
-        <div>
-            <h1>Weather Alert Service</h1>
-            <p>Stay informed about weather conditions in your area with personalized alerts delivered straight to your inbox.</p>
-        </div>
-        <div>
-            <div>
-                <form action="">
-                    <h2>Subscribe to Weather Alerts</h2>
-                    <p>Get weather updates for your location delivered directly to your inbox.</p>
-                    <div>
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div>
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div>
-                        <input type="radio" id="html" name="fav_language" value="HTML">
-                        <label for="html">HTML</label><br>
-                        <input type="radio" id="css" name="fav_language" value="CSS">
-                        <label for="css">CSS</label><br>
-                    </div>
-                    <button type="submit">Subscribe now →</button>
-                </form>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Weather Forecast</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="./index.css" />
+    </head>
+    <body>
+        <main>
+            <div class="title__wrapper">
+                <h1>Weather Alert Service</h1>
+                <p>
+                    Stay informed about weather conditions in your area with
+                    personalized alerts delivered straight to your inbox.
+                </p>
             </div>
-            <div>
-                <h2>Find weather in your city right now</h2>
-                <form action="">
-                    <div>
-                        <label for="city">City:</label>
-                        <input type="text" id="city" name="city" required>
+            <div class="forms__container">
+                <div id="subscribe__form" class="form__wrapper">
+                    <form action="">
+                        <h2>Subscribe to Weather Alerts</h2>
+                        <p class="descr__text">
+                            Get weather updates for your location delivered
+                            directly to your inbox.
+                        </p>
+                        <div class="input__wrapper">
+                            <label for="email"
+                                ><p>Email Address <span>*</span></p></label
+                            >
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="your@gmail.com"
+                                required
+                            />
+                        </div>
+                        <div class="input__wrapper">
+                            <label for="email"
+                                ><p>City <span>*</span></p></label
+                            >
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your city"
+                                required
+                            />
+                        </div>
+                        <div class="radio__wrapper">
+                            <legend>
+                                <p>Update Frequency <span>*</span></p>
+                            </legend>
+
+                            <div class="radio__answers">
+                                <div class="radio__answer">
+                                    <input
+                                        type="radio"
+                                        id="html"
+                                        name="fav_language"
+                                        value="HTML"
+                                        checked
+                                    />
+                                    <label for="html" class="radio__label"
+                                        >Daily</label
+                                    >
+                                </div>
+                                <div class="radio__answer">
+                                    <input
+                                        type="radio"
+                                        id="css"
+                                        name="fav_language"
+                                        value="CSS"
+                                    />
+                                    <label for="css" class="radio__label"
+                                        >Hourly</label
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit">Subscribe now →</button>
+                    </form>
+                </div>
+                <div class="left-side__wrapper">
+                    <div id="find-weather__form" class="form__wrapper">
+                        <h2>Find weather in your city right now</h2>
+                        <form action="">
+                            <div class="input__wrapper">
+                                <label for="city"
+                                    ><p>City <span>*</span></p></label
+                                >
+                                <div class="get-weather__wrapper">
+                                    <input
+                                        type="text"
+                                        id="city"
+                                        name="city"
+                                        required
+                                    />
+                                    <button type="submit">
+                                        Get weather data
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="weather-props__container">
+                            <div class="weather-prop__wrapper">
+                                <p class="weather-prop-name__text">Humidity:</p>
+                                <p class="weather-prop__text">50%</p>
+                            </div>
+                            <div class="weather-prop__wrapper">
+                                <p class="weather-prop-name__text">
+                                    Temperature:
+                                </p>
+                                <p class="weather-prop__text">20°C</p>
+                            </div>
+                            <div class="weather-prop__wrapper">
+                                <p class="weather-prop-name__text">
+                                    Description:
+                                </p>
+                                <p class="weather-prop__text">Sunny</p>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit">Get weather data</button>
-                </form>
-                <div>
-                    <div>
-                        <p class="weather-prop-name__text">Humidity:</p>
-                        <p class="weather-prop__text">50%</p>
-                    </div>
-                    <div>
-                        <p class="weather-prop-name__text">Temperature:</p>
-                        <p class="weather-prop__text">20°C</p>
-                    </div>
-                    <div>
-                        <p class="weather-prop-name__text">Description:</p>
-                        <p class="weather-prop__text">Sunny</p>
+                    <div id="unsubscribe__block" class="form__wrapper">
+                        <p>Already Subscribed?</p>
+                        <button>Unsubscribe from Alerts</button>
                     </div>
                 </div>
             </div>
-            <div>
-                <p>Already Subscribed?</p>
-                <button>Unsubscribe from Alerts</button>
-            </div>
-        </div>
-    </main>
+        </main>
 
-    <script src="./index.js"></script>
-</body>
+        <script src="./index.js"></script>
+    </body>
 </html>
