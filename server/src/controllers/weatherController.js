@@ -1,7 +1,7 @@
 import { fetchWeatherFromAPI } from "../services/weather/getWeather.js";
 
 export const getWeather = async (req, res, next) => {
-    const { city } = req.body;
+    const { city } = req.query;
 
     if (!city) {
         return res.status(400).json({

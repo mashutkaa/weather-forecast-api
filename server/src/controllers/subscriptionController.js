@@ -106,6 +106,43 @@ export const handleConfirm = async (req, res, next) => {
     }
 };
 
+export const handleRequestUnsubscribe = async (req, res, next) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res
+            .status(400)
+            .json({ status: 400, description: "Email required" });
+    }
+
+    try {
+        const sub = await getSubscriptionByEmail(email);
+
+        if (!sub) {
+            return res
+                .status(404)
+                .json({ status: 404, description: "Subscription not found" });
+        }
+
+        const unsubscribeLink = `${process.env.API_URL}/unsubscribe/${sub.token}`;
+
+        await sendEmail({
+            to: email,
+            subject: "Відписка від погоди",
+            html: `
+                <h2>Скасування підписки</h2>
+                <p>Натисніть <a href="${unsubscribeLink}">сюди</a>, щоб скасувати підписку.</p>
+            `,
+        });
+
+        return res
+            .status(200)
+            .json({ status: 200, description: "Unsubscribe email sent" });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const handleUnsubscribe = async (req, res, next) => {
     const { token } = req.params;
 
