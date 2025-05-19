@@ -13,7 +13,7 @@ function subscribe() {
 
         try {
             const response = await fetch(
-                "http://localhost:5001/api/subscribe",
+                "https://weather-forecast-api-1.onrender.com/api/subscribe",
                 {
                     method: "POST",
                     headers: {
@@ -64,7 +64,7 @@ function unsubscibe() {
 
         try {
             const response = await fetch(
-                "http://localhost:5001/api/unsubscribe",
+                "https://weather-forecast-api-1.onrender.com/api/unsubscribe",
                 {
                     method: "POST",
                     headers: {
@@ -109,7 +109,7 @@ function getWeatherData() {
 
         try {
             const response = await fetch(
-                `http://localhost:5001/api/weather?city=${encodeURIComponent(
+                `https://weather-forecast-api-1.onrender.com/api/weather?city=${encodeURIComponent(
                     city,
                 )}`,
             );
