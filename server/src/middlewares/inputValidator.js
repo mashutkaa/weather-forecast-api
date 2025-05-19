@@ -18,7 +18,10 @@ const subscriptionSchema = Joi.object({
 });
 
 const validateSubscription = (req, res, next) => {
-    const { error } = subscriptionSchema.validate(req.body);
+    const { error } = subscriptionSchema.validate(req.body, {
+        abortEarly: false,
+    });
+
     if (error) {
         return res.status(400).json({
             status: 400,
