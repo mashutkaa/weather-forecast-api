@@ -1,6 +1,6 @@
-import { fetchWeatherFromAPI } from "../services/weather/getWeather.js";
+const { fetchWeatherFromAPI } = require("../services/weather/getWeather");
 
-export const getWeather = async (req, res, next) => {
+const getWeather = async (req, res, next) => {
     const { city } = req.query;
 
     if (!city) {
@@ -29,3 +29,5 @@ export const getWeather = async (req, res, next) => {
         next(error);
     }
 };
+
+module.exports = { getWeather };

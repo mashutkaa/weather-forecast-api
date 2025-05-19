@@ -1,7 +1,6 @@
-import dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function fetchWeatherFromAPI(city) {
+async function fetchWeatherFromAPI(city) {
     const apiKey = process.env.WEATHER_API_KEY;
     const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&lang=uk`;
 
@@ -23,3 +22,5 @@ export async function fetchWeatherFromAPI(city) {
         return null;
     }
 }
+
+module.exports = { fetchWeatherFromAPI };

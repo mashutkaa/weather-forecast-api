@@ -1,17 +1,17 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
 
-import pool from "./config/db.js";
+const pool = require("./config/db.js");
 
-import weatherRoutes from "./routes/weatherRoutes.js";
-import subscriptionRoutes from "./routes/subscriptionRoutes.js";
+const weatherRoutes = require("./routes/weatherRoutes.js");
+const subscriptionRoutes = require("./routes/subscriptionRoutes.js");
 
-import errorHandling from "./middlewares/errorHandler.js";
+const errorHandling = require("./middlewares/errorHandler.js");
 
-import createSubscriptionsTable from "./data/createSubscriptionsTable.js";
+const createSubscriptionsTable = require("./data/createSubscriptionsTable.js");
 
-import "./cron/sendForecast.js";
+require("./cron/sendForecast.js");
 
 dotenv.config();
 

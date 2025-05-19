@@ -1,15 +1,15 @@
-import crypto from "crypto";
-import pool from "../config/db.js";
+const crypto = require("crypto");
+const pool = require("../config/db");
 
-import {
+const {
     getSubscriptionByEmail,
     createSubscription,
     confirmSubscription,
     deleteSubscriptionByToken,
-} from "../models/subscriptionModel.js";
-import { sendEmail } from "../services/email/emailService.js";
+} = require("../models/subscriptionModel");
+const { sendEmail } = require("../services/email/emailService");
 
-export const handleSubscribe = async (req, res, next) => {
+const handleSubscribe = async (req, res, next) => {
     const { email, city, frequency } = req.body;
 
     if (!email || !city || !frequency) {
@@ -47,11 +47,11 @@ export const handleSubscribe = async (req, res, next) => {
         const subject = "Активація підписки на погоду";
         const text = `Щоб підтвердити свою підписку, перейдіть за посиланням: ${confirmationUrl}`;
         const html = `
-            <h1>Підтвердження підписки</h1>
-            <p>Щоб підтвердити свою підписку, натисніть на посилання нижче:</p>
-            <a href="${confirmationUrl}">Підтвердити підписку</a>
-            <p>Якщо ви не підписувалися, просто проігноруйте цей лист.</p>
-        `;
+      <h1>Підтвердження підписки</h1>
+      <p>Щоб підтвердити свою підписку, натисніть на посилання нижче:</p>
+      <a href="${confirmationUrl}">Підтвердити підписку</a>
+      <p>Якщо ви не підписувалися, просто проігноруйте цей лист.</p>
+    `;
 
         try {
             await sendEmail({ to: email, subject, text, html });
@@ -84,7 +84,7 @@ export const handleSubscribe = async (req, res, next) => {
     }
 };
 
-export const handleConfirm = async (req, res, next) => {
+const handleConfirm = async (req, res, next) => {
     const { token } = req.params;
 
     try {
@@ -106,7 +106,7 @@ export const handleConfirm = async (req, res, next) => {
     }
 };
 
-export const handleRequestUnsubscribe = async (req, res, next) => {
+const handleRequestUnsubscribe = async (req, res, next) => {
     const { email } = req.body;
 
     if (!email) {
@@ -119,9 +119,10 @@ export const handleRequestUnsubscribe = async (req, res, next) => {
         const sub = await getSubscriptionByEmail(email);
 
         if (!sub) {
-            return res
-                .status(404)
-                .json({ status: 404, description: "Subscription not found" });
+            return res.status(404).json({
+                status: 404,
+                description: "Subscription not found",
+            });
         }
 
         const unsubscribeLink = `${process.env.API_URL}/unsubscribe/${sub.token}`;
@@ -130,20 +131,21 @@ export const handleRequestUnsubscribe = async (req, res, next) => {
             to: email,
             subject: "Відписка від погоди",
             html: `
-                <h2>Скасування підписки</h2>
-                <p>Натисніть <a href="${unsubscribeLink}">сюди</a>, щоб скасувати підписку.</p>
-            `,
+        <h2>Скасування підписки</h2>
+        <p>Натисніть <a href="${unsubscribeLink}">сюди</a>, щоб скасувати підписку.</p>
+      `,
         });
 
-        return res
-            .status(200)
-            .json({ status: 200, description: "Unsubscribe email sent" });
+        return res.status(200).json({
+            status: 200,
+            description: "Unsubscribe email sent",
+        });
     } catch (error) {
         next(error);
     }
 };
 
-export const handleUnsubscribe = async (req, res, next) => {
+const handleUnsubscribe = async (req, res, next) => {
     const { token } = req.params;
 
     const isValidTokenFormat = /^[a-f0-9]{32}$/i.test(token);
@@ -171,4 +173,11 @@ export const handleUnsubscribe = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
+
+module.exports = {
+    handleSubscribe,
+    handleConfirm,
+    handleRequestUnsubscribe,
+    handleUnsubscribe,
 };

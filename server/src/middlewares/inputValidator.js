@@ -1,31 +1,32 @@
-import Joi from "joi";
+const Joi = require("joi");
 
-const subscriptionScheme = Joi.object({
+const subscriptionSchema = Joi.object({
     email: Joi.string().email().required().messages({
-        "string.base": "Email має бути рядком",
-        "string.email": "Некоректна адреса електронної пошти",
-        "any.required": "Email обов’язковий",
+        "string.base": "Email must be a string",
+        "string.email": "Invalid email address",
+        "any.required": "Email is required",
     }),
     city: Joi.string().min(1).required().messages({
-        "string.base": "Місто має бути рядком",
-        "string.empty": "Місто не може бути порожнім",
-        "any.required": "Місто обов’язкове",
+        "string.base": "City must be a string",
+        "string.empty": "City cannot be empty",
+        "any.required": "City is required",
     }),
     frequency: Joi.string().valid("hourly", "daily").required().messages({
-        "any.only": "Частота має бути однією з: hourly, dailyy",
-        "any.required": "Частота обов’язкова",
+        "any.only": "Frequency must be either 'hourly' or 'daily'",
+        "any.required": "Frequency is required",
     }),
 });
 
 const validateSubscription = (req, res, next) => {
-    const { error } = subscriptionScheme.validate(req.body);
+    const { error } = subscriptionSchema.validate(req.body);
     if (error) {
         return res.status(400).json({
             status: 400,
             description: "Invalid input",
+            details: error.details.map((d) => d.message),
         });
     }
     next();
 };
 
-export default validateSubscription;
+module.exports = validateSubscription;

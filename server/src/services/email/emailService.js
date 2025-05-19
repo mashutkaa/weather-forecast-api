@@ -1,5 +1,5 @@
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
@@ -26,8 +26,7 @@ transporter.verify((error, success) => {
  * @param {string} text - Текстова версія листа
  * @param {string} html - HTML-версія листа
  */
-
-export const sendEmail = async ({ to, subject, text, html }) => {
+const sendEmail = async ({ to, subject, text, html }) => {
     const mailOptions = {
         from: `"Weather Bot 🌤️" <${process.env.SMTP_USER}>`,
         to,
@@ -38,3 +37,5 @@ export const sendEmail = async ({ to, subject, text, html }) => {
 
     await transporter.sendMail(mailOptions);
 };
+
+module.exports = { sendEmail };

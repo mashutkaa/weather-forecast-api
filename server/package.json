@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Weather API application that allows users to subscribe to weather updates for their city.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "jest",
     "dev": "nodemon src/index.js"

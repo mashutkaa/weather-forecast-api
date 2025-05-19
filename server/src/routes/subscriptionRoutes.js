@@ -1,12 +1,13 @@
-import express from "express";
+const express = require("express");
 
-import {
+const {
     handleSubscribe,
     handleConfirm,
     handleRequestUnsubscribe,
     handleUnsubscribe,
-} from "../controllers/subscriptionController.js";
-import validateSubscription from "../middlewares/inputValidator.js";
+} = require("../controllers/subscriptionController");
+
+const validateSubscription = require("../middlewares/inputValidator");
 
 const router = express.Router();
 
@@ -15,4 +16,4 @@ router.get("/confirm/:token", handleConfirm);
 router.post("/unsubscribe", handleRequestUnsubscribe);
 router.get("/unsubscribe/:token", handleUnsubscribe);
 
-export default router;
+module.exports = router;
