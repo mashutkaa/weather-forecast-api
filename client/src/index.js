@@ -1,3 +1,5 @@
+const API_URL = "https://weather-forecast-api-1.onrender.com";
+
 function subscribe() {
     const form = document.querySelector("#subscribe__form form");
 
@@ -12,16 +14,13 @@ function subscribe() {
         ).value;
 
         try {
-            const response = await fetch(
-                "https://weather-forecast-api-1.onrender.com/api/subscribe",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ email, city, frequency }),
+            const response = await fetch(`${API_URL}/api/subscribe`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-            );
+                body: JSON.stringify({ email, city, frequency }),
+            });
 
             const result = await response.json();
 
@@ -63,16 +62,13 @@ function unsubscibe() {
         }
 
         try {
-            const response = await fetch(
-                "https://weather-forecast-api-1.onrender.com/api/unsubscribe",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ email }),
+            const response = await fetch(`${API_URL}/api/unsubscribe`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-            );
+                body: JSON.stringify({ email }),
+            });
 
             const result = await response.json();
 
@@ -109,9 +105,7 @@ function getWeatherData() {
 
         try {
             const response = await fetch(
-                `https://weather-forecast-api-1.onrender.com/api/weather?city=${encodeURIComponent(
-                    city,
-                )}`,
+                `${API_URL}/api/weather?city=${encodeURIComponent(city)}`,
             );
 
             const result = await response.json();
