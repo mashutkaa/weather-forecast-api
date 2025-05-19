@@ -15,21 +15,6 @@
 
 ---
 
-## Структура проєкту
-
-weather-forecast-api/
-├── docker-compose.yml
-├── server/
-│ ├── Dockerfile
-│ └── src/ # Код бекенду
-├── frontend/
-│ ├── Dockerfile
-│ └── src/ # HTML, CSS, JS фронтенду
-├── .env # Файл із конфіденційними змінними (НЕ комітити)
-├── README.md
-
----
-
 ## Запуск проєкту
 
 1. Клонуйте репозиторій:
